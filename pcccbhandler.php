@@ -2,8 +2,7 @@
 
 /*  pcccbhandler.php
     ~~~~~~~~~
-    This module implements the PubControlClient, ThreadSafeClient,
-    and ThreadSafeArray classes. Note that only the PubControlClient
+    This module implements the PubControlClientCallbackHandler class.
     class should be used publicly.
     :authors: Konstantin Bokarius.
     :copyright: (c) 2015 by Fanout, Inc.
