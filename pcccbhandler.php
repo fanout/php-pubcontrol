@@ -11,27 +11,28 @@
 
 class PubControlClientCallbackHandler
 {
-  def initialize(num_calls, callback)
-    @num_calls = num_calls
-    @callback = callback
-    @success = true
-    @first_error_message = nil
-  end
+    private $num_calls = null;
+    private $callback = null;
+    private $success = null;
+    private $first_error_message = null;
 
-  def handler(success, message)
-    if !success and @success
-      @success = false
-      @first_error_message = message
-    end
-    @num_calls -= 1
-    if @num_calls <= 0
-      @callback.call(@success, @first_error_message)
-    end
-  end
+    public function __construct($num_calls, $callback)
+    {
+        $this->num_calls = $numcalls;
+        $this->callback = $callback;
+        $this->success = true;
+    }
 
-  # TODO: how to get handler symbol without this method?
-  def handler_method_symbol
-    return method(:handler)
-  end
+    public function handler($success, $message)
+    {
+        if (!$success && $this->success)
+        {
+            $this->success = false;
+            $this->first_error_message = $message;
+        }
+        $this->num_calls -= 1;
+        if ($this->num_calls <= 0)
+            $this->callback($this->success, $this->first_error_message);
+    }
 }
 ?>
