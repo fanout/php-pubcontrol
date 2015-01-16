@@ -18,8 +18,15 @@ Requirements
 * pthreads (required for asynchronous publishing)
 * php-jwt (retreived automatically via Composer)
 
-Asynchronous Publishing
+Installation
 ------------
+
+Using Composer: 'composer require fanout/pubcontrol' 
+
+Manual: place the source code in a folder and require or include pubcontrol.php. Note that php-jwt has to be loaded prior to loading phpcontrol.php.
+
+Asynchronous Publishing
+-----------------------
 
 In order to make asynchronous publish calls pthreads must be installed. If pthreads is not installed then only synchronous publish calls can be made. To install pthreads recompile PHP with the following flag: '--enable-maintainer-zts'
 

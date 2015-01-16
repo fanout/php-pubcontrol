@@ -9,7 +9,9 @@
 
 require 'format.php';
 require 'item.php';
-require 'vendor/autoload.php';
+
+if (!class_exists('JWT'))
+    require 'vendor/autoload.php';
 
 if (class_exists('Thread'))
     include 'threadsafeclient.php';
