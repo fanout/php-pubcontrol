@@ -13,10 +13,12 @@ require 'pcccbhandler.php';
 class PubControl
 {
     private $clients = null;
+    private $pcccbhandlers = null;
 
     public function __construct($config=null)
     {
         $this->clients = array();
+        $this->pcccbhandlers = array();
         if (!is_null($config))
             $this->apply_config($config);
     }
@@ -62,8 +64,16 @@ class PubControl
         $cb = null;
         if (!is_null($callback))
         {
-            $pcccbhandler = new PubControlClientCallbackHandler(
-                    count($this->clients), $callback);
+            $pcccbhandler = null;
+            foreach ($this->pcccbhandlers as $key => $value)
+                if ($value->completed)
+                    $pcccbhandler = $value;
+            if (is_null($pcccbhandler))  
+            {
+                $pcccbhandler = new PubControlClientCallbackHandler(
+                        count($this->clients), $callback);
+                $this->pcccbhandlers[] = $pcccbhandler;
+            }
             $cb = array($pcccbhandler, 'handler');
         }
         foreach ($this->clients as $client)
