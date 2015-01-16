@@ -56,7 +56,7 @@ $pub->publish('<channel>', new Item(new HttpResponseFormat("Test publish!")));
 // Publish across all configured endpoints asynchronously (requires pthreads):
 if ($pub->is_async_supported())
     $pub->publish_async('<channel>', new Item(new HttpResponseFormat(
-            "Test async publish!")), $callback);
+            "Test async publish!")), 'callback');
 
 // Wait for all async publish calls to complete:
 $pub->finish();
