@@ -70,6 +70,7 @@ class PubControl
                 {
                     $pcccbhandler = $value;
                     $pcccbhandler->update(count($this->clients), $callback);
+                    break;
                 }
             if (is_null($pcccbhandler))  
             {
