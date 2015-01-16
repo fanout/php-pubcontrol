@@ -61,8 +61,8 @@ class PubControlClient
     }
 }
 
-// NOTE: The ThreadSafeClient class cannot be used directly.
-// Use the PubControlClient class instead.
+/* NOTE: The ThreadSafeClient class cannot be used directly.
+   Use the PubControlClient class instead. */
 class ThreadSafeClient extends Thread
 {
     public $uri = null;
