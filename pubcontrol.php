@@ -67,7 +67,10 @@ class PubControl
             $pcccbhandler = null;
             foreach ($this->pcccbhandlers as $key => $value)
                 if ($value->completed)
+                {
                     $pcccbhandler = $value;
+                    $pcccbhandler->update(count($this->clients), $callback);
+                }
             if (is_null($pcccbhandler))  
             {
                 $pcccbhandler = new PubControlClientCallbackHandler(
