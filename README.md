@@ -16,7 +16,7 @@ Requirements
 * openssl
 * curl
 * pthreads (required for asynchronous publishing)
-* php-jwt (installed automatically via Composer)
+* php-jwt (retreived automatically via Composer)
 
 Usage
 ------------

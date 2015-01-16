@@ -8,7 +8,8 @@
     :license: MIT, see LICENSE for more details. */
 
 require 'pubcontrolclient.php';
-require 'pcccbhandler.php';
+if (class_exists('Thread'))
+    include 'pcccbhandler.php';
 
 class PubControl
 {
@@ -47,8 +48,17 @@ class PubControl
         }
     }
 
+    public function is_async_supported()
+    {
+        if (class_exists('Thread'))
+            return true;
+        return false;
+    }
+
     public function finish()
     {
+        if (!$this->is_async_supported())
+            return;
         foreach ($this->clients as $client)
             $client->finish();
     }
@@ -61,6 +71,10 @@ class PubControl
 
     public function publish_async($channel, $item, $callback=null)
     {
+        if (!$this->is_async_supported())
+            throw new RuntimeException('Asynchronous publishing not supported. '
+                    . 'Recompile PHP with --enable-maintainer-zts to ' 
+                    . 'turn pthreads on.');
         $cb = null;
         if (!is_null($callback))
         {

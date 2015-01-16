@@ -36,7 +36,7 @@ function callback($result, $message)
 
 // Initialize PubControl with a single endpoint:
 $pub = new PubControl(array('uri' => 'https://api.fanout.io/realm/<myrealm>',
-        'iss' => '<myrealm>', 'key' => b64decode('<realmkey>')});
+        'iss' => '<myrealm>', 'key' => b64decode('<realmkey>')));
 
 // Add new endpoints by applying an endpoint configuration:
 $pub->apply_config(array(array('uri' => '<myendpoint_uri_1>'), 
