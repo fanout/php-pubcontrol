@@ -25,11 +25,13 @@ class PubControlClient
 
     public function __construct($uri)
     {
-        $this->uri = $uri;
-        $this->req_queue = new ThreadSafeArray();
+        $this->uri = $uri;        
         if ($this->is_async_supported())
+        {
+            $this->req_queue = new ThreadSafeArray();
             $this->tsclient = new ThreadSafeClient($this->uri,
                     $this->req_queue);
+        }
     }
 
     public function __destruct()
