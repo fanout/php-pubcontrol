@@ -3,7 +3,6 @@
 /*  pcccbhandler.php
     ~~~~~~~~~
     This module implements the PubControlClientCallbackHandler class.
-    class should be used publicly.
     :authors: Konstantin Bokarius.
     :copyright: (c) 2015 by Fanout, Inc.
     :license: MIT, see LICENSE for more details. */
@@ -17,7 +16,7 @@ class PubControlClientCallbackHandler
 
     public function __construct($num_calls, $callback)
     {
-        $this->num_calls = $numcalls;
+        $this->num_calls = $num_calls;
         $this->callback = $callback;
         $this->success = true;
     }
@@ -31,7 +30,10 @@ class PubControlClientCallbackHandler
         }
         $this->num_calls -= 1;
         if ($this->num_calls <= 0)
-            $this->callback($this->success, $this->first_error_message);
+        {
+            $cb = $this->callback;
+            $cb($this->success, $this->first_error_message);
+        }
     }
 }
 ?>
