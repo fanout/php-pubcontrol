@@ -7,14 +7,8 @@
     :copyright: (c) 2015 by Fanout, Inc.
     :license: MIT, see LICENSE for more details. */
 
-if (!class_exists('Format'))
-{
-    require 'src/format.php';
-    require 'src/item.php';
-}
-
-if (class_exists('Thread'))
-    include 'threadsafeclient.php';
+if (class_exists('Thread'))  
+    include dirname(__FILE__) . '/threadsafeclient.php';
 
 class PubControlClient
 {

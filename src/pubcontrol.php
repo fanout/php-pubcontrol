@@ -7,11 +7,8 @@
     :copyright: (c) 2015 by Fanout, Inc.
     :license: MIT, see LICENSE for more details. */
 
-if (!class_exists('PubControlClient'))
-    require 'pubcontrolclient.php';
-
 if (class_exists('Thread'))
-    include 'pcccbhandler.php';
+    require dirname(__FILE__) . '/pcccbhandler.php';
 
 class PubControl
 {
