@@ -23,7 +23,14 @@ Installation
 
 Using Composer: 'composer require fanout/pubcontrol' 
 
-Manual: place the source code in a folder and require or include pubcontrol.php. Note that php-jwt has to be loaded prior to loading phpcontrol.php.
+Manual: ensure that php-jwt has been included and require the following files in php-pubcontrol:
+
+```PHP
+require 'php-pubcontrol/src/format.php';
+require 'php-pubcontrol/src/item.php';
+require 'php-pubcontrol/src/pubcontrolclient.php';
+require 'php-pubcontrol/src/pubcontrol.php';
+```
 
 Asynchronous Publishing
 -----------------------
