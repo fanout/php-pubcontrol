@@ -1,6 +1,6 @@
 {
     "name": "fanout/pubcontrol",
-    "description": "EPCP library for PHP.",
+    "description": "A PHP convenience library for publishing messages using the EPCP protocol.",
     "homepage": "https://github.com/fanout/php-pubcontrol",
     "authors": [
         {

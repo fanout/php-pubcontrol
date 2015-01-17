@@ -16,7 +16,7 @@ Requirements
 * openssl
 * curl
 * pthreads (required for asynchronous publishing)
-* php-jwt (retreived automatically via Composer)
+* firebase/php-jwt >=1.0.0 (retreived automatically via Composer)
 
 Installation
 ------------
@@ -36,6 +36,8 @@ Asynchronous Publishing
 -----------------------
 
 In order to make asynchronous publish calls pthreads must be installed. If pthreads is not installed then only synchronous publish calls can be made. To install pthreads recompile PHP with the following flag: '--enable-maintainer-zts'
+
+Also note that since a callback passed to the publish_async methods is going to be executed in a separate thread, that callback and the class it belongs to are subject to the rules and limitations imposed by the pthreads extension.
 
 See more information about pthreads here: http://php.net/manual/en/book.pthreads.php
 
