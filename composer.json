@@ -16,8 +16,8 @@
     },
     "autoload": {
         "files": ["src/format.php",
-                  "src/item.php"
-                  "src/pubcontrolclient.php"
+                  "src/item.php",
+                  "src/pubcontrolclient.php",
                   "src/pubcontrol.php"]
     },
     "target-dir": "fanout/php-pubcontrol",
