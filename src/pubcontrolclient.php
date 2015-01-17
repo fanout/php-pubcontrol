@@ -9,9 +9,12 @@
 
 if (!class_exists('Format'))
 {
-    require 'format.php';
-    require 'item.php';
+    require 'src/format.php';
+    require 'src/item.php';
 }
+
+if (class_exists('Thread'))
+    include 'threadsafeclient.php';
 
 class PubControlClient
 {
