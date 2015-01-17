@@ -8,10 +8,12 @@
     :copyright: (c) 2015 by Fanout, Inc.
     :license: MIT, see LICENSE for more details. */
 
-require 'vendor/autoload.php';
-
 /* NOTE: The ThreadSafeClient class cannot be used directly.
    Use the PubControlClient class instead. */
+
+if (class_exists('Thread'))
+    include 'threadsafeclient.php';
+
 class ThreadSafeClient extends Thread
 {
     public $uri = null;

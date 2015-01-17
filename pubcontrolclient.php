@@ -7,14 +7,11 @@
     :copyright: (c) 2015 by Fanout, Inc.
     :license: MIT, see LICENSE for more details. */
 
-require 'format.php';
-require 'item.php';
-
-if (!class_exists('JWT'))
-    require 'vendor/autoload.php';
-
-if (class_exists('Thread'))
-    include 'threadsafeclient.php';
+if (!class_exists('Format'))
+{
+    require 'format.php';
+    require 'item.php';
+}
 
 class PubControlClient
 {
