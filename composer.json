@@ -15,7 +15,7 @@
         "firebase/php-jwt": ">=1.0.0"
     },
     "autoload": {
-        "classmap": ["src/"]
+        "files": ["src/pubcontrol.php"]
     },
     "target-dir": "fanout/php-pubcontrol",
     "minimum-stability": "dev"
