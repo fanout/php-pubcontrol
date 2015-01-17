@@ -75,6 +75,8 @@ function callback($result, $message)
         Print "Publish failed with message: {$message}\r\n";
 }
 
+$callback = 'callback';
+
 // PubControl can be initialized with or without an endpoint configuration.
 // Each endpoint can include optional JWT authentication info.
 // Multiple endpoints can be included in a single configuration.
@@ -101,7 +103,7 @@ $pub->publish('<channel>', new Item(new HttpResponseFormat("Test publish!")));
 // Publish across all configured endpoints asynchronously (requires pthreads):
 if ($pub->is_async_supported())
     $pub->publish_async('<channel>', new Item(new HttpResponseFormat(
-            "Test async publish!")), 'callback');
+            "Test async publish!")), );
 
 // Wait for all async publish calls to complete:
 $pub->finish();
