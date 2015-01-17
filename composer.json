@@ -1,0 +1,22 @@
+{
+    "name": "fanout/pubcontrol",
+    "description": "EPCP library for PHP.",
+    "homepage": "https://github.com/fanout/php-pubcontrol",
+    "authors": [
+        {
+            "name": "Konstantin Bokarius",
+            "email": "kon@fanout.io",
+            "role": "Developer"
+        }
+    ],
+    "license": "MIT",
+    "require": {
+        "php": ">=5.3.0",
+        "firebase/php-jwt": ">=1.0.0"
+    },
+    "autoload": {
+        "classmap": ["src/"]
+    },
+    "target-dir": "fanout/php-pubcontrol",
+    "minimum-stability": "dev"
+}
