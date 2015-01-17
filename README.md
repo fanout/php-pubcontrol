@@ -75,8 +75,6 @@ function callback($result, $message)
         Print "Publish failed with message: {$message}\r\n";
 }
 
-$callback = 'callback';
-
 // PubControl can be initialized with or without an endpoint configuration.
 // Each endpoint can include optional JWT authentication info.
 // Multiple endpoints can be included in a single configuration.
