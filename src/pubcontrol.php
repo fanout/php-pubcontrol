@@ -12,8 +12,8 @@ if (class_exists('Thread'))
 
 class PubControl
 {
-    private $clients = null;
-    private $pcccbhandlers = null;
+    protected $clients = null;
+    protected $pcccbhandlers = null;
 
     public function __construct($config=null)
     {

@@ -47,8 +47,6 @@ Usage
 ```PHP
 <?php
 
-require 'vendor/autoload.php';
-
 class HttpResponseFormat extends Format
 {
     private $body = null;
