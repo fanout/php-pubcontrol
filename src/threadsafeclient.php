@@ -152,7 +152,7 @@ class ThreadSafeClient extends Thread
         foreach ($callbacks as $callback)
             if (!is_null($callback))
             {
-                $callback($result[0], $result[1]);
+                call_user_func($callback, $result[0], $result[1]);
             }
     }
 }

@@ -44,7 +44,7 @@ class PubControlClientCallbackHandler extends Stackable
         {
             $this->completed = true;
             $cb = $this->callback;
-            $cb($this->success, $this->first_error_message);
+            call_user_func($cb, $this->success, $this->first_error_message);
         }
     }
 }
