@@ -98,12 +98,12 @@ $pub->add_client($pubclient);
 
 // Publish across all configured endpoints synchronously:
 $pub->publish('<channel>', new Item(new HttpResponseFormat("Test publish!")));
-// Publish across all configured endpoints asynchronously (requires pthreads):
-if ($pub->is_async_supported())
-    $pub->publish_async('<channel>', new Item(new HttpResponseFormat(
-            "Test async publish!")), );
 
+// Use publish_async for async publishing only if pthreads are installed:
+// if ($pub->is_async_supported())
+//     $pub->publish_async('<channel>', new Item(new HttpResponseFormat(
+//             "Test async publish!")), );
 // Wait for all async publish calls to complete:
-$pub->finish();
+// $pub->finish();
 ?>
 ```
