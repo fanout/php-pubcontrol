@@ -22,6 +22,14 @@ class PccUtilities
         $headers = array('Content-Type: application/json');
         if (!is_null($auth_header))
             $headers[] = 'Authorization: ' . $auth_header;
+        $results = $this->make_http_request($uri, $headers, $content);
+        $this->verify_http_status_code($results[0], $results[1]);
+    }
+
+    // An internal method for making an HTTP request to publish a
+    // message with the specified URI, headers, and content.
+    public function make_http_request($uri, $headers, $content)
+    {
         $post = curl_init($uri);
         curl_setopt_array($post, array(
             CURLOPT_POST => true,
@@ -33,7 +41,14 @@ class PccUtilities
         if (curl_error($post) != '')
             throw new RuntimeException('Failed to publish: ' . 
                     curl_error($post));
-        $http_code = intval(curl_getinfo($post, CURLINFO_HTTP_CODE));
+        return array($response, 
+                intval(curl_getinfo($post, CURLINFO_HTTP_CODE)));
+    }
+
+    // An internal method used for verifying an HTTP status code where
+    // an exception code is thrown if the code is not successful.
+    public function verify_http_status_code($response, $http_code)
+    {
         if ($http_code < 200 || $http_code >= 300)
             throw new RuntimeException('Failed to publish: ' . $response);
     }
