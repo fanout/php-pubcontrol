@@ -37,6 +37,15 @@ class Item
     // an error will be raised.
     public function export()
     {
+        $format_types = array();
+        foreach ($this->formats as $format)
+        {
+            $format_class_name = get_class($format);
+            if (in_array($format_class_name, $format_types))
+                throw new RuntimeException('Multiple ' .
+                        $format_class_name . ' format classes specified');
+            array_push($format_types, $format_class_name);
+        }
         $out = array();
         if (!is_null($this->id))
             $out['id'] = $this->id;
