@@ -11,6 +11,9 @@
 /* NOTE: The ThreadSafeClient class cannot be used directly.
    Use the PubControlClient class instead. */
 
+// This is an internal class used to facilitate async publishing via
+// the PHP pthreads feature. It essentially provides the same functionality
+// that PubControlClient does with async-capabilities.
 class ThreadSafeClient extends Thread
 {
     public $uri = null;
@@ -24,13 +27,17 @@ class ThreadSafeClient extends Thread
     public $auth_jwt_claim = null;
     public $auth_jwt_key = null;
 
+    // Initialize with a URI and request queue instance.
     public function __construct($uri, $req_queue)
     {
         $this->req_queue = $req_queue;
         $this->uri = $uri;
         $this->mutex = Mutex::create();
+        $this->pcc_utilities = new PccUtilities(); 
     }
     
+    // Call this method and pass a username and password to use basic
+    // authentication with the configured endpoint.  
     function set_auth_basic($username, $password)
     {
         Mutex::lock($this->mutex);
@@ -39,6 +46,8 @@ class ThreadSafeClient extends Thread
         Mutex::unlock($this->mutex);
     }
 
+    // Call this method and pass a claim and key to use JWT authentication
+    // with the configured endpoint.
     public function set_auth_jwt($claim, $key)
     {
         Mutex::lock($this->mutex);
@@ -47,6 +56,10 @@ class ThreadSafeClient extends Thread
         Mutex::unlock($this->mutex);
     }
 
+    // The asynchronous publish method for publishing the specified item to the
+    // specified channel on the configured endpoint. The callback method is
+    // optional and will be passed the publishing results after publishing is
+    // complete.
     public function publish_async($channel, $item, $callback=null)
     {
         $export = $item->export();
@@ -55,7 +68,7 @@ class ThreadSafeClient extends Thread
         $auth = null;
         Mutex::lock($this->mutex);
         $uri = $this->uri;
-        $auth = PubControlClient::gen_auth_header($this->auth_jwt_claim,
+        $auth = $this->pcc_utilities->gen_auth_header($this->auth_jwt_claim,
                 $this->auth_jwt_key, $this->auth_basic_user,
                 $this->auth_basic_pass);
         $this->ensure_thread();
@@ -63,6 +76,9 @@ class ThreadSafeClient extends Thread
         $this->queue_req(array('pub', $uri, $auth, $export, $callback));
     }
 
+    // The finish method is a blocking method that ensures that all asynchronous
+    // publishing is complete prior to returning and allowing the consumer to 
+    // proceed.    
     public function finish()
     {
         Mutex::lock($this->mutex);
@@ -75,6 +91,11 @@ class ThreadSafeClient extends Thread
         Mutex::unlock($this->mutex);
    }
 
+    // An internal method that is meant to run as a separate thread and process
+    // asynchronous publishing requests. The method runs continously and
+    // publishes requests in batches containing a maximum of 10 requests. The
+    // method completes and the thread is terminated only when a 'stop' command
+    // is provided in the request queue.
     public function run()
     {
         $quit = false;
@@ -103,10 +124,14 @@ class ThreadSafeClient extends Thread
             }
             Mutex::unlock($this->thread_mutex);
             if (count($reqs) > 0)
-                self::pubbatch($reqs);
+                $this->pubbatch($reqs);
         }
     }
 
+    // An internal method that ensures that asynchronous publish calls are
+    // properly processed. This method initializes the required class fields,
+    // starts the pubworker worker thread, and is meant to execute only when
+    // the consumer makes an asynchronous publish call.
     public function ensure_thread()
     {
         if (!$this->is_thread_running)
@@ -117,7 +142,11 @@ class ThreadSafeClient extends Thread
             $this->start();
         }
     }
-    
+
+    // An internal method for adding an asynchronous publish request to the 
+    // publishing queue. This method will also activate the pubworker worker
+    // thread to make sure that it process any and all requests added to
+    // the queue.    
     public function queue_req($req)
     {
         Mutex::lock($this->thread_mutex);
@@ -126,7 +155,13 @@ class ThreadSafeClient extends Thread
         Mutex::unlock($this->thread_mutex);
     }
 
-    public static function pubbatch($reqs)
+    // An internal method for publishing a batch of requests. The requests are
+    // parsed for the URI, authorization header, and each request is published
+    // to the endpoint. After all publishing is complete, each callback
+    // corresponding to each request is called (if a callback was originally
+    // provided for that request) and passed a result indicating whether that
+    // request was successfully published.
+    public function pubbatch($reqs)
     {
         if (count($reqs) == 0)
             throw new RuntimeException('reqs length == 0');
@@ -142,7 +177,7 @@ class ThreadSafeClient extends Thread
         $result = null;
         try
         {
-            PubControlClient::pubcall($uri, $auth_header, $items);
+            $this->pcc_utilities->pubcall($uri, $auth_header, $items);
             $result = array(true, '');
         }
         catch (RuntimeException $exception)
@@ -157,8 +192,11 @@ class ThreadSafeClient extends Thread
     }
 }
 
+// A thread safe array used for the request queue.
 class ThreadSafeArray extends Stackable
 {
+
+    // Required stackable interface method.
     public function run()
     {
     }
