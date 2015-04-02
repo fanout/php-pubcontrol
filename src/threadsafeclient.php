@@ -11,9 +11,9 @@
 /* NOTE: The ThreadSafeClient class cannot be used directly.
    Use the PubControlClient class instead. */
 
-// This is an internal class used to facilitate async publishing via
-// the PHP pthreads feature. It essentially provides the same functionality
-// that PubControlClient does with async-capabilities.
+// The ThreadSafeClient internal class is used to facilitate async publishing
+// via the PHP pthreads feature. It essentially provides the same functionality
+// that PubControlClient does along with async-capabilities.
 class ThreadSafeClient extends Thread
 {
     public $uri = null;

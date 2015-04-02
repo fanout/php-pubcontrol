@@ -97,6 +97,9 @@ class PubControl
     // PubControlClient instances will result in a failure result being passed
     // to the callback method along with the first encountered error message.
     // If async publishing is not supported then an exception will be thrown.
+    // Note that the storing of multiple PubControlClientCallbackHandler
+    // instances was required to avoid issues and work around PHP / pthreads
+    // limitations.
     public function publish_async($channel, $item, $callback=null)
     {
         if (!$this->is_async_supported())
