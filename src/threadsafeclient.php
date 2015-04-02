@@ -26,6 +26,7 @@ class ThreadSafeClient extends Thread
     public $auth_basic_pass = null;
     public $auth_jwt_claim = null;
     public $auth_jwt_key = null;
+    public $pcc_utilities = null;
 
     // Initialize with a URI and request queue instance.
     public function __construct($uri, $req_queue)
