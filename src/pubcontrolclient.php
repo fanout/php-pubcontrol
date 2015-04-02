@@ -20,13 +20,14 @@ include dirname(__FILE__) . '/pccutilities.php';
 // result.
 class PubControlClient
 {
-    private $req_queue = null;
-    private $tsclient = null;
-    private $auth_basic_user = null;
-    private $auth_basic_pass = null;
-    private $auth_jwt_claim = null;
-    private $auth_jwt_key = null;
-    private $pcc_utilities = null;
+    public $uri = null;
+    public $req_queue = null;
+    public $tsclient = null;
+    public $auth_basic_user = null;
+    public $auth_basic_pass = null;
+    public $auth_jwt_claim = null;
+    public $auth_jwt_key = null;
+    public $pcc_utilities = null;
 
     // Initialize this class with a URL representing the publishing endpoint.
     // If async publishing is supported (i.e., pthread is installed) then
