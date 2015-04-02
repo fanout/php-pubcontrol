@@ -18,8 +18,8 @@
 class PubControlClientCallbackHandler extends Stackable
 {
     public $completed = null;
-    private $num_calls = null;
     private $callback = null;
+    private $num_calls = null;
     private $success = null;
     private $first_error_message = null;
 
