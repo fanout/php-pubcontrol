@@ -1,6 +1,6 @@
 <?php
 
-class TestClassForPubcallTesting1 extends PccUtilities
+class TestClassForPubcallTesting1 extends PubControl\PccUtilities
 {
     private $test = null;
     public $wasRequestMade = false;
@@ -22,7 +22,7 @@ class TestClassForPubcallTesting1 extends PccUtilities
     }
 }
 
-class TestClassForPubcallTesting2 extends PccUtilities
+class TestClassForPubcallTesting2 extends PubControl\PccUtilities
 {
     private $test = null;
     public $wasRequestMade = false;
@@ -64,7 +64,7 @@ class PccUtilitiesTests extends PHPUnit_Framework_TestCase
 
     public function testVerifyHttpStatusCode()
     {
-        $pccu = new PccUtilities();
+        $pccu = new PubControl\PccUtilities();
         foreach (range(200, 299) as $number)
         {
             $pccu->verify_http_status_code('response', $number);
@@ -76,7 +76,7 @@ class PccUtilitiesTests extends PHPUnit_Framework_TestCase
      */
     public function testVerifyHttpStatusCodeFailure1()
     {
-        $pccu = new PccUtilities();
+        $pccu = new PubControl\PccUtilities();
         $pccu->verify_http_status_code('response', 199);
     }
 
@@ -85,13 +85,13 @@ class PccUtilitiesTests extends PHPUnit_Framework_TestCase
      */
     public function testVerifyHttpStatusCodeFailure2()
     {
-        $pccu = new PccUtilities();
+        $pccu = new PubControl\PccUtilities();
         $pccu->verify_http_status_code('response', 300);
     }
 
     public function testGenAuthHeaderBasic()
     {
-        $pccu = new PccUtilities();
+        $pccu = new PubControl\PccUtilities();
         $header = $pccu->gen_auth_header(null, null, 'user', 'pass');
         $this->assertEquals($header, 'Basic ' . base64_encode('user' . ':' .
                 'pass'));
@@ -99,7 +99,7 @@ class PccUtilitiesTests extends PHPUnit_Framework_TestCase
 
     public function testGenAuthHeaderJwt()
     {
-        $pccu = new PccUtilities();
+        $pccu = new PubControl\PccUtilities();
         $header = $pccu->gen_auth_header(array('claim' => 'hello', 'exp' =>
             1000), 'key==', null, null);
         $this->assertEquals($header, 'Bearer eyJ0eXAiOiJKV1QiLCJhb' . 

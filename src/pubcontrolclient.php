@@ -7,6 +7,8 @@
     :copyright: (c) 2015 by Fanout, Inc.
     :license: MIT, see LICENSE for more details. */
 
+namespace PubControl;
+
 if (class_exists('Thread'))  
     include dirname(__FILE__) . '/threadsafeclient.php';
 
@@ -49,11 +51,11 @@ class PubControlClient
     {
         if (!is_null($this->tsclient))
         {
-            Mutex::destroy($this->tsclient->mutex);
+            \Mutex::destroy($this->tsclient->mutex);
             if (!is_null($this->tsclient->thread_mutex))
-                Mutex::destroy($this->tsclient->thread_mutex);
+                \Mutex::destroy($this->tsclient->thread_mutex);
             if (!is_null($this->tsclient->thread_cond))
-                Cond::destroy($this->tsclient->thread_cond);
+                \Cond::destroy($this->tsclient->thread_cond);
         }
     }
 
@@ -99,7 +101,7 @@ class PubControlClient
     public function publish_async($channel, $item, $callback=null)
     {
         if (!$this->is_async_supported())
-            throw new RuntimeException('Asynchronous publishing not supported. '
+            throw new \RuntimeException('Asynchronous publishing not supported. '
                     . 'Recompile PHP with --enable-maintainer-zts to ' 
                     . 'turn pthreads on.');
         $this->tsclient->publish_async($channel, $item, $callback);

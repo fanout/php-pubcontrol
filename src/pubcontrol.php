@@ -7,6 +7,8 @@
     :copyright: (c) 2015 by Fanout, Inc.
     :license: MIT, see LICENSE for more details. */
 
+namespace PubControl;
+
 if (class_exists('Thread'))
     require dirname(__FILE__) . '/pcccbhandler.php';
 
@@ -103,7 +105,7 @@ class PubControl
     public function publish_async($channel, $item, $callback=null)
     {
         if (!$this->is_async_supported())
-            throw new RuntimeException('Asynchronous publishing not supported. '
+            throw new \RuntimeException('Asynchronous publishing not supported. '
                     . 'Recompile PHP with --enable-maintainer-zts to ' 
                     . 'turn pthreads on.');
         $cb = null;

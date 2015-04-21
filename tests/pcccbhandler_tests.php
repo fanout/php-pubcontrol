@@ -22,19 +22,19 @@ class PubControlClientCallbackHandlerTests extends PHPUnit_Framework_TestCase
 {
     public function testInitialize()
     {
-        $pccbhandler = new PubControlClientCallbackHandler(1, 'callback');
+        $pccbhandler = new PubControl\PubControlClientCallbackHandler(1, 'callback');
     }
 
     public function testUpdate()
     {
-        $pccbhandler = new PubControlClientCallbackHandler(1, 'callback');
+        $pccbhandler = new PubControl\PubControlClientCallbackHandler(1, 'callback');
         $pccbhandler->update(2, 'callback');
     }
 
     public function testHandler()
     {
         $callback_test_class = new CallbackTestClass();
-        $pccbhandler = new PubControlClientCallbackHandler(1,
+        $pccbhandler = new PubControl\PubControlClientCallbackHandler(1,
                 array($callback_test_class, "callback"));
         $pccbhandler->handler(true, null);
         $this->assertEquals($callback_test_class->result, true);
@@ -43,7 +43,7 @@ class PubControlClientCallbackHandlerTests extends PHPUnit_Framework_TestCase
         $this->assertTrue($pccbhandler->completed);
 
         $callback_test_class = new CallbackTestClass();
-        $pccbhandler = new PubControlClientCallbackHandler(2,
+        $pccbhandler = new PubControl\PubControlClientCallbackHandler(2,
                 array($callback_test_class, "callback"));
         $pccbhandler->handler(true, null);
         $this->assertFalse($callback_test_class->was_callback_called);
@@ -57,7 +57,7 @@ class PubControlClientCallbackHandlerTests extends PHPUnit_Framework_TestCase
         $this->assertTrue($pccbhandler->completed);
 
         $callback_test_class = new CallbackTestClass();
-        $pccbhandler = new PubControlClientCallbackHandler(3,
+        $pccbhandler = new PubControl\PubControlClientCallbackHandler(3,
                 array($callback_test_class, "callback"));
         $pccbhandler->handler(false, 'message');
         $this->assertFalse($callback_test_class->was_callback_called);

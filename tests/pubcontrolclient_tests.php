@@ -1,6 +1,6 @@
 <?php
 
-class NoAsyncPubControlClientClass extends PubControlClient
+class NoAsyncPubControlClientClass extends PubControl\PubControlClient
 {
     public function is_async_supported()
     {
@@ -78,7 +78,7 @@ class TestPubControlClient extends PHPUnit_Framework_TestCase
 {
     public function testInitialize()
     {
-        $pc = new PubControlClient('uri');
+        $pc = new PubControl\PubControlClient('uri');
         $this->assertEquals($pc->uri, 'uri');
         $this->assertFalse(is_null($pc->pcc_utilities));
         $this->assertFalse(is_null($pc->tsclient));
@@ -90,7 +90,7 @@ class TestPubControlClient extends PHPUnit_Framework_TestCase
 
     public function testSetAuthBasic()
     {
-        $pc = new PubControlClient('uri');
+        $pc = new PubControl\PubControlClient('uri');
         $pc->set_auth_basic('user', 'pass');
         $this->assertEquals($pc->auth_basic_user, 'user');
         $this->assertEquals($pc->auth_basic_pass, 'pass');
@@ -100,7 +100,7 @@ class TestPubControlClient extends PHPUnit_Framework_TestCase
 
     public function testSetAuthJwt()
     {
-        $pc = new PubControlClient('uri');
+        $pc = new PubControl\PubControlClient('uri');
         $pc->set_auth_jwt('claim', 'key');
         $this->assertEquals($pc->auth_jwt_claim, 'claim');
         $this->assertEquals($pc->auth_jwt_key, 'key');
@@ -110,7 +110,7 @@ class TestPubControlClient extends PHPUnit_Framework_TestCase
 
     public function testPublish()
     {
-        $pc = new PubControlClient('uri');
+        $pc = new PubControl\PubControlClient('uri');
         $pc->set_auth_basic('user', 'pass');
         $pc->set_auth_jwt('claim', 'key');
         $pc->pcc_utilities = new PccUtilitiesTestClass($this);
@@ -129,7 +129,7 @@ class TestPubControlClient extends PHPUnit_Framework_TestCase
 
     public function testPublishAsync()
     {
-        $pc = new PubControlClient('uri');
+        $pc = new PubControl\PubControlClient('uri');
         $pc->tsclient = new ThreadSafeClientTestClass($this);
         $pc->publish_async('chan', 'item', 'callback');
         $this->assertTrue($pc->tsclient->was_publish_called);
@@ -137,7 +137,7 @@ class TestPubControlClient extends PHPUnit_Framework_TestCase
 
     public function testFinish()
     {
-        $pc = new PubControlClient('uri');
+        $pc = new PubControl\PubControlClient('uri');
         $pc->tsclient = new ThreadSafeClientTestClass($this);
         $pc->finish();
         $this->assertTrue($pc->tsclient->was_finish_called);
@@ -145,7 +145,7 @@ class TestPubControlClient extends PHPUnit_Framework_TestCase
 
     public function testIsAsyncSupported()
     {
-        $pc = new PubControlClient('uri');
+        $pc = new PubControl\PubControlClient('uri');
         $this->assertTrue($pc->is_async_supported());
     }
 }

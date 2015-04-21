@@ -8,7 +8,7 @@ class ItemTestClass
     }
 }
 
-class ThreadSafeClientForTesting1 extends ThreadSafeClient
+class ThreadSafeClientForTesting1 extends PubControl\ThreadSafeClient
 {
     public $was_ensure_thread_called = false;
     public $was_queue_req_called = false;
@@ -16,7 +16,7 @@ class ThreadSafeClientForTesting1 extends ThreadSafeClient
 
     public function __construct()
     {
-        parent::__construct('uri', new ThreadSafeArray());
+        parent::__construct('uri', new PubControl\ThreadSafeArray());
     }
 
     public function ensure_thread()
@@ -31,7 +31,7 @@ class ThreadSafeClientForTesting1 extends ThreadSafeClient
     }
 }
 
-class ThreadSafeClientForTesting2 extends ThreadSafeClient
+class ThreadSafeClientForTesting2 extends PubControl\ThreadSafeClient
 {
     public $was_pubbatch_called = false;
     public $reqs = null;
@@ -104,8 +104,8 @@ class TestThreadSafeClient extends PHPUnit_Framework_TestCase
 {
     public function testInitialize()
     {
-        $req_queue = new ThreadSafeArray();
-        $pc = new ThreadSafeClient('uri', $req_queue);
+        $req_queue = new PubControl\ThreadSafeArray();
+        $pc = new PubControl\ThreadSafeClient('uri', $req_queue);
         $this->assertEquals($pc->uri, 'uri'); 
         $this->assertEquals($pc->req_queue, $req_queue);
         $this->assertFalse(is_null($pc->mutex));
@@ -114,8 +114,8 @@ class TestThreadSafeClient extends PHPUnit_Framework_TestCase
 
     public function testSetAuthBasic()
     {
-        $req_queue = new ThreadSafeArray();
-        $pc = new ThreadSafeClient('uri', $req_queue);
+        $req_queue = new PubControl\ThreadSafeArray();
+        $pc = new PubControl\ThreadSafeClient('uri', $req_queue);
         $pc->set_auth_basic('user', 'pass');
         $this->assertEquals($pc->auth_basic_user, 'user');
         $this->assertEquals($pc->auth_basic_pass, 'pass');  
@@ -123,8 +123,8 @@ class TestThreadSafeClient extends PHPUnit_Framework_TestCase
 
     public function testSetAuthJwt()
     {
-        $req_queue = new ThreadSafeArray();
-        $pc = new ThreadSafeClient('uri', $req_queue);
+        $req_queue = new PubControl\ThreadSafeArray();
+        $pc = new PubControl\ThreadSafeClient('uri', $req_queue);
         $pc->set_auth_basic('claim', 'key');
         $this->assertEquals($pc->auth_basic_user, 'claim');
         $this->assertEquals($pc->auth_basic_pass, 'key'); 
@@ -154,8 +154,8 @@ class TestThreadSafeClient extends PHPUnit_Framework_TestCase
         $pc->finish();
         $this->assertEquals($pc->req[0], 'stop');
         $this->assertTrue($pc->was_queue_req_called);
-        $req_queue = new ThreadSafeArray();
-        $pc = new ThreadSafeClient('uri', $req_queue);
+        $req_queue = new PubControl\ThreadSafeArray();
+        $pc = new PubControl\ThreadSafeClient('uri', $req_queue);
         $pc->ensure_thread();
         $this->assertTrue($pc->isRunning());
         $pc->finish();
@@ -164,7 +164,7 @@ class TestThreadSafeClient extends PHPUnit_Framework_TestCase
 
     public function testRun()
     {
-        $req_queue = new ThreadSafeArray();
+        $req_queue = new PubControl\ThreadSafeArray();
         $pc = new ThreadSafeClientForTesting2($req_queue);
         $pc->ensure_thread();
         foreach (range(0, 500) as $number)
@@ -183,8 +183,8 @@ class TestThreadSafeClient extends PHPUnit_Framework_TestCase
 
     public function testEnsureThread()
     {
-        $req_queue = new ThreadSafeArray();
-        $pc = new ThreadSafeClient('uri', $req_queue);
+        $req_queue = new PubControl\ThreadSafeArray();
+        $pc = new PubControl\ThreadSafeClient('uri', $req_queue);
         $pc->ensure_thread();
         $this->assertEquals($pc->is_thread_running, true);
         $this->assertFalse(is_null($pc->thread_cond));
@@ -195,8 +195,8 @@ class TestThreadSafeClient extends PHPUnit_Framework_TestCase
 
     public function testQueueReq()
     {
-        $req_queue = new ThreadSafeArray();
-        $pc = new ThreadSafeClient('uri', $req_queue);
+        $req_queue = new PubControl\ThreadSafeArray();
+        $pc = new PubControl\ThreadSafeClient('uri', $req_queue);
         $pc->ensure_thread();
         $pc->finish();
         $pc->queue_req('req');
@@ -208,15 +208,15 @@ class TestThreadSafeClient extends PHPUnit_Framework_TestCase
      */
     public function testPubbatchException()
     {
-        $req_queue = new ThreadSafeArray();
-        $pc = new ThreadSafeClient('uri', $req_queue);
+        $req_queue = new PubControl\ThreadSafeArray();
+        $pc = new PubControl\ThreadSafeClient('uri', $req_queue);
         $pc->pubbatch(array());
     }
 
     public function testPubbatch1()
     {
-        $req_queue = new ThreadSafeArray();
-        $pc = new ThreadSafeClient('uri', $req_queue);
+        $req_queue = new PubControl\ThreadSafeArray();
+        $pc = new PubControl\ThreadSafeClient('uri', $req_queue);
         $utilities = new PccUtilitiesTestClass();
         $pc->pcc_utilities = $utilities;
         $callback1 = new CallbackTestClass();
@@ -239,8 +239,8 @@ class TestThreadSafeClient extends PHPUnit_Framework_TestCase
 
     public function testPubbatch2()
     {
-        $req_queue = new ThreadSafeArray();
-        $pc = new ThreadSafeClient('uri', $req_queue);
+        $req_queue = new PubControl\ThreadSafeArray();
+        $pc = new PubControl\ThreadSafeClient('uri', $req_queue);
         $utilities = new PccUtilitiesFailureTestClass();
         $pc->pcc_utilities = $utilities;
         $callback = new CallbackTestClass();

@@ -1,6 +1,6 @@
 <?php
 
-class PubControlTestClass extends PubControl
+class PubControlTestClass extends PubControl\PubControl
 {
     public function getClients()
     {
@@ -47,7 +47,7 @@ class PubControlClientAsyncTestClass
     }
 }
 
-class PubControlTestClassNoAsync extends PubControl
+class PubControlTestClassNoAsync extends PubControl\PubControl
 {
     public function is_async_supported()
     {
@@ -149,7 +149,7 @@ class TestPubControl extends PHPUnit_Framework_TestCase
 
     public function testFinish()
     {
-        $pc = new PubControl();
+        $pc = new PubControl\PubControl();
         $pcc1 = new PubControlClientTestClass();
         $pcc2 = new PubControlClientTestClass();
         $pc->add_client($pcc1);
@@ -166,7 +166,7 @@ class TestPubControl extends PHPUnit_Framework_TestCase
 
     public function testPublish()
     {
-        $pc = new PubControl();
+        $pc = new PubControl\PubControl();
         $pcc1 = new PubControlClientTestClass();
         $pcc2 = new PubControlClientTestClass();
         $pc->add_client($pcc1);
@@ -188,7 +188,7 @@ class TestPubControl extends PHPUnit_Framework_TestCase
 
     public function testPublishAsync()
     {
-        $pc = new PubControl();
+        $pc = new PubControl\PubControl();
         $callback = new CallbackTestClass();
         $pcc1 = new PubControlClientAsyncTestClass('uri');
         $pcc2 = new PubControlClientAsyncTestClass('uri');

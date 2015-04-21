@@ -7,6 +7,8 @@
     :copyright: (c) 2015 by Fanout, Inc.
     :license: MIT, see LICENSE for more details. */
 
+namespace PubControl;
+
 // The Item class is a container used to contain one or more format
 // implementation instances where each implementation instance is of a
 // different type of format. An Item instance may not contain multiple
@@ -42,7 +44,7 @@ class Item
         {
             $format_class_name = get_class($format);
             if (in_array($format_class_name, $format_types))
-                throw new RuntimeException('Multiple ' .
+                throw new \RuntimeException('Multiple ' .
                         $format_class_name . ' format classes specified');
             array_push($format_types, $format_class_name);
         }

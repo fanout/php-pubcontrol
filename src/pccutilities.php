@@ -7,6 +7,8 @@
     :copyright: (c) 2015 by Fanout, Inc.
     :license: MIT, see LICENSE for more details. */
 
+namespace PubControl;
+
 // The PccUtilities class is an internal class that provides helper methods
 // used by both the PubControlClient and ThreadSafeClient classes.
 class PccUtilities
@@ -39,7 +41,7 @@ class PccUtilities
         ));
         $response = curl_exec($post);
         if (curl_error($post) != '')
-            throw new RuntimeException('Failed to publish: ' . 
+            throw new \RuntimeException('Failed to publish: ' . 
                     curl_error($post));
         return array($response, 
                 intval(curl_getinfo($post, CURLINFO_HTTP_CODE)));
@@ -50,7 +52,7 @@ class PccUtilities
     public function verify_http_status_code($response, $http_code)
     {
         if ($http_code < 200 || $http_code >= 300)
-            throw new RuntimeException('Failed to publish: ' . $response);
+            throw new \RuntimeException('Failed to publish: ' . $response);
     }
 
     // An internal method used to generate an authorization header. The
@@ -68,7 +70,7 @@ class PccUtilities
             $claim = $auth_jwt_claim;
             if (!array_key_exists('exp', $claim))
                 $claim['exp'] = time() + 3600;
-            return 'Bearer ' . JWT::encode($claim, $auth_jwt_key); 
+            return 'Bearer ' . \JWT::encode($claim, $auth_jwt_key); 
         }
         else 
             return null;

@@ -47,7 +47,7 @@ Usage
 ```PHP
 <?php
 
-class HttpResponseFormat extends Format
+class HttpResponseFormat extends PubControl\Format
 {
     private $body = null;
 
@@ -80,7 +80,8 @@ function callback($result, $message)
 // Multiple endpoints can be included in a single configuration.
 
 // Initialize PubControl with a single endpoint:
-$pub = new PubControl(array('uri' => 'https://api.fanout.io/realm/<myrealm>',
+$pub = new PubControl\PubControl(array(
+        'uri' => 'https://api.fanout.io/realm/<myrealm>',
         'iss' => '<myrealm>', 'key' => base64_decode('<realmkey>')));
 
 // Add new endpoints by applying an endpoint configuration:
@@ -91,18 +92,19 @@ $pub->apply_config(array(array('uri' => '<myendpoint_uri_1>'),
 $pub->remove_all_clients();
 
 // Explicitly add an endpoint as a PubControlClient instance:
-$pubclient = new PubControlClient('<myendpoint_uri>');
+$pubclient = new PubControl\PubControlClient('<myendpoint_uri>');
 // Optionally set JWT auth: $pubclient->set_auth_jwt(<claim>, '<key>');
 // Optionally set basic auth: $pubclient->set_auth_basic('<user>', '<password>');
 $pub->add_client($pubclient);
 
 // Publish across all configured endpoints synchronously:
-$pub->publish('<channel>', new Item(new HttpResponseFormat("Test publish!")));
+$pub->publish('<channel>', new PubControl\Item(
+        new HttpResponseFormat("Test publish!")));
 
 // Use publish_async for async publishing only if pthreads are installed:
 // if ($pub->is_async_supported())
-//     $pub->publish_async('<channel>', new Item(new HttpResponseFormat(
-//             "Test async publish!")), );
+//     $pub->publish_async('<channel>', new PubControl\Item(
+//     new HttpResponseFormat("Test async publish!")));
 // Wait for all async publish calls to complete:
 // $pub->finish();
 ?>

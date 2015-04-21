@@ -4,13 +4,13 @@ class FormatTests extends PHPUnit_Framework_TestCase
 {
     public function testName()
     {
-        $format = new Format();
+        $format = new PubControl\Format();
         $format->name();
     }
 
     public function testExport()
     {
-        $format = new Format();
+        $format = new PubControl\Format();
         $format->export();
     }
 }
