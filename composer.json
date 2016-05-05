@@ -23,6 +23,12 @@
                   "src/pubcontrolclient.php",
                   "src/pubcontrol.php"]
     },
+    "autoload-dev": {
+        "files": [
+            "tests/CallbackTestClass.php",
+            "tests/ItemTestClass.php"
+        ]
+    },
     "target-dir": "fanout/php-pubcontrol",
     "minimum-stability": "stable"
 }

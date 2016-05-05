@@ -1,13 +1,5 @@
 <?php
 
-class ItemTestClass
-{
-    public function export()
-    {
-        return array('name' => 'export');
-    }
-}
-
 class ThreadSafeClientForTesting1 extends PubControl\ThreadSafeClient
 {
     public $was_ensure_thread_called = false;
@@ -50,7 +42,7 @@ class ThreadSafeClientForTesting2 extends PubControl\ThreadSafeClient
     }
 }
 
-class PccUtilitiesTestClass extends Stackable
+class PccUtilitiesStackableTestClass extends Stackable
 {
     public $was_pubcall_called = false;
     public $uri = false;
@@ -74,25 +66,7 @@ class PccUtilitiesFailureTestClass extends Stackable
 {
     public function pubcall($uri, $auth, $content)
     {
-        throw new RuntimeException('message');    
-    }
-
-    public function run()
-    {
-    }
-}
-
-class CallbackTestClass extends Stackable
-{
-    public $was_callback_called = false;
-    public $result = null;
-    public $message = null;
-
-    public function callback($result, $message)
-    {
-        $this->result = $result;
-        $this->message = $message;
-        $this->was_callback_called = true;
+        throw new RuntimeException('message');
     }
 
     public function run()
@@ -106,7 +80,7 @@ class TestThreadSafeClient extends PHPUnit_Framework_TestCase
     {
         $req_queue = new PubControl\ThreadSafeArray();
         $pc = new PubControl\ThreadSafeClient('uri', $req_queue);
-        $this->assertEquals($pc->uri, 'uri'); 
+        $this->assertEquals($pc->uri, 'uri');
         $this->assertEquals($pc->req_queue, $req_queue);
         $this->assertFalse(is_null($pc->mutex));
         $this->assertFalse(is_null($pc->pcc_utilities));
@@ -118,7 +92,7 @@ class TestThreadSafeClient extends PHPUnit_Framework_TestCase
         $pc = new PubControl\ThreadSafeClient('uri', $req_queue);
         $pc->set_auth_basic('user', 'pass');
         $this->assertEquals($pc->auth_basic_user, 'user');
-        $this->assertEquals($pc->auth_basic_pass, 'pass');  
+        $this->assertEquals($pc->auth_basic_pass, 'pass');
     }
 
     public function testSetAuthJwt()
@@ -127,7 +101,7 @@ class TestThreadSafeClient extends PHPUnit_Framework_TestCase
         $pc = new PubControl\ThreadSafeClient('uri', $req_queue);
         $pc->set_auth_basic('claim', 'key');
         $this->assertEquals($pc->auth_basic_user, 'claim');
-        $this->assertEquals($pc->auth_basic_pass, 'key'); 
+        $this->assertEquals($pc->auth_basic_pass, 'key');
     }
 
     public function testPublishAsync()
@@ -169,7 +143,7 @@ class TestThreadSafeClient extends PHPUnit_Framework_TestCase
         $pc->ensure_thread();
         foreach (range(0, 500) as $number)
         {
-            $pc->queue_req(array('pub', 'uri', 'auth', 
+            $pc->queue_req(array('pub', 'uri', 'auth',
                     'export', 'callback'));
         }
         $pc->queue_req(array('stop'));
@@ -217,7 +191,7 @@ class TestThreadSafeClient extends PHPUnit_Framework_TestCase
     {
         $req_queue = new PubControl\ThreadSafeArray();
         $pc = new PubControl\ThreadSafeClient('uri', $req_queue);
-        $utilities = new PccUtilitiesTestClass();
+        $utilities = new PccUtilitiesStackableTestClass();
         $pc->pcc_utilities = $utilities;
         $callback1 = new CallbackTestClass();
         $callback2 = new CallbackTestClass();

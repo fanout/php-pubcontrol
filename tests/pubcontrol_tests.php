@@ -55,24 +55,6 @@ class PubControlTestClassNoAsync extends PubControl\PubControl
     }
 }
 
-class CallbackTestClass extends Stackable
-{
-    public $was_callback_called = false;
-    public $result = null;
-    public $message = null;
-
-    public function callback($result, $message)
-    {
-        $this->result = $result;
-        $this->message = $message;
-        $this->was_callback_called = true;
-    }
-
-    public function run()
-    {
-    }
-}
-
 class TestPubControl extends PHPUnit_Framework_TestCase
 {
     public function testInitialize()
