@@ -70,7 +70,7 @@ class PccUtilities
             $claim = $auth_jwt_claim;
             if (!array_key_exists('exp', $claim))
                 $claim['exp'] = time() + 3600;
-            return 'Bearer ' . \JWT::encode($claim, $auth_jwt_key); 
+            return 'Bearer ' . \Firebase\JWT\JWT::encode($claim, $auth_jwt_key);
         }
         else 
             return null;
