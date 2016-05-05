@@ -102,6 +102,8 @@ class PccUtilitiesTests extends PHPUnit_Framework_TestCase
         $pccu = new PubControl\PccUtilities();
         $header = $pccu->gen_auth_header(array('claim' => 'hello', 'exp' =>
             1000), 'key==', null, null);
+
+        // Header is {"typ":"JWT","alg":"HS256"}{"claim":"hello","exp":1000}
         $this->assertEquals($header, 'Bearer eyJ0eXAiOiJKV1QiLCJhb' .
                 'GciOiJIUzI1NiJ9.eyJjbGFpbSI6ImhlbGxvIiwiZXhwIjoxMDAwfQ.-' .
                 'de7_nwFHcDuvyAX2ptOKpTdDKJNw3WmOPK2oQ8vpS4');
