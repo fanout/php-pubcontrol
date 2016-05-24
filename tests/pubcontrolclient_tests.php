@@ -8,14 +8,6 @@ class NoAsyncPubControlClientClass extends PubControl\PubControlClient
     }
 }
 
-class ItemTestClass
-{
-    public function export()
-    {
-        return array('name' => 'export');
-    }
-}
-
 class ThreadSafeClientTestClass
 {
     public $was_publish_called = false;

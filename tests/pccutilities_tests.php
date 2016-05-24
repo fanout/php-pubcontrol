@@ -102,12 +102,14 @@ class PccUtilitiesTests extends PHPUnit_Framework_TestCase
         $pccu = new PubControl\PccUtilities();
         $header = $pccu->gen_auth_header(array('claim' => 'hello', 'exp' =>
             1000), 'key==', null, null);
-        $this->assertEquals($header, 'Bearer eyJ0eXAiOiJKV1QiLCJhb' . 
+
+        // Header is {"typ":"JWT","alg":"HS256"}{"claim":"hello","exp":1000}
+        $this->assertEquals($header, 'Bearer eyJ0eXAiOiJKV1QiLCJhb' .
                 'GciOiJIUzI1NiJ9.eyJjbGFpbSI6ImhlbGxvIiwiZXhwIjoxMDAwfQ.-' .
                 'de7_nwFHcDuvyAX2ptOKpTdDKJNw3WmOPK2oQ8vpS4');
         $header = $pccu->gen_auth_header(array('claim' => 'hello'),
                 'key==', null, null);
-        $claim = JWT::decode(substr($header, 7), 'key==');
+        $claim = Firebase\JWT\JWT::decode(substr($header, 7), 'key==', ['HS256']);
         $this->assertTrue(array_key_exists('exp', $claim));
     }
 }
